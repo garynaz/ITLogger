@@ -59,8 +59,7 @@ struct QuoteView: View {
                     }
             }
             Button("Submit Request") {
-                supportTicket.updateData.append(TicketModel(priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText))
-                print(supportTicket.updateData)
+                supportTicket.addTicket(ticket: TicketModel(type: "Quote", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText))
                 self.presentation.wrappedValue.dismiss()
             }
                 .frame(width: UIScreen.main.bounds.size.width, height: 70, alignment: .center)

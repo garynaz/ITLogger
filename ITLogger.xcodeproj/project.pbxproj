@@ -18,6 +18,7 @@
 		DDA0B94625E5CA7900D3DD6A /* TicketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA0B94525E5CA7900D3DD6A /* TicketModel.swift */; };
 		DDA0B94925E5CA8C00D3DD6A /* QuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA0B94825E5CA8C00D3DD6A /* QuoteView.swift */; };
 		DDA0B94C25E5CA9C00D3DD6A /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA0B94B25E5CA9C00D3DD6A /* SupportView.swift */; };
+		DDBD4FF125EC5A6900D74506 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD4FF025EC5A6900D74506 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		DDA0B94525E5CA7900D3DD6A /* TicketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketModel.swift; sourceTree = "<group>"; };
 		DDA0B94825E5CA8C00D3DD6A /* QuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteView.swift; sourceTree = "<group>"; };
 		DDA0B94B25E5CA9C00D3DD6A /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
+		DDBD4FF025EC5A6900D74506 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				DDA0B94825E5CA8C00D3DD6A /* QuoteView.swift */,
 				DDA0B94525E5CA7900D3DD6A /* TicketModel.swift */,
 				DDA0B94225E5CA5E00D3DD6A /* TicketView.swift */,
+				DDBD4FF025EC5A6900D74506 /* DetailView.swift */,
 				DDA0B93325E5CA0200D3DD6A /* Assets.xcassets */,
 				DDA0B93825E5CA0200D3DD6A /* LaunchScreen.storyboard */,
 				DDA0B93B25E5CA0200D3DD6A /* Info.plist */,
@@ -161,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDA0B92B25E5CA0100D3DD6A /* AppDelegate.swift in Sources */,
+				DDBD4FF125EC5A6900D74506 /* DetailView.swift in Sources */,
 				DDA0B94325E5CA5E00D3DD6A /* TicketView.swift in Sources */,
 				DDA0B92D25E5CA0100D3DD6A /* SceneDelegate.swift in Sources */,
 				DDA0B93225E5CA0100D3DD6A /* ITLogger.xcdatamodeld in Sources */,

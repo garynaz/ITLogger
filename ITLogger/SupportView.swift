@@ -65,8 +65,7 @@ struct SupportView: View {
             }
             
             Button("Submit Ticket") {
-                supportTicket.updateData.append(TicketModel(priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText))
-                print(supportTicket.updateData)
+                supportTicket.addTicket(ticket: TicketModel(type: "Support Ticket", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText))
                 self.presentation.wrappedValue.dismiss()
             }
             .frame(width: UIScreen.main.bounds.size.width, height: 70, alignment: .center)

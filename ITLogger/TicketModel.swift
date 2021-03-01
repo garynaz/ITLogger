@@ -9,11 +9,17 @@ import SwiftUI
 import Combine
 
 class UpdateModel: ObservableObject {
-    @Published var updateData: [TicketModel] = []
+    @Published var updateData: [TicketModel] = [TicketModel(type: "Support", priority: "Urgent", company: "AccessWeb", user: "Gary Naz", inquiry: "This is a test...")]
+    
+    func addTicket(ticket: TicketModel){
+        updateData.append(ticket)
+    }
+    
 }
 
 struct TicketModel: Identifiable{
     let id = UUID()
+    let type : String
     let status : String = "OPEN"
     let priority : String
     let company : String
@@ -21,26 +27,3 @@ struct TicketModel: Identifiable{
     let inquiry : String
     let date : String = "Aug 01"
 }
-
-//enum Status {
-//    case INPROGRESS
-//    case COMPLETED
-//    case INCOMPLETE
-//    case OPEN
-//    case CLOSED
-//}
-//
-//func shareImage(on status: Status){
-//    switch status {
-//    case .INPROGRESS:
-//        Color.green
-//    case .COMPLETED:
-//        Color.blue
-//    case .INCOMPLETE:
-//        Color.gray
-//    case .OPEN:
-//        Color.yellow
-//    case .CLOSED:
-//        Color.red
-//    }
-//}

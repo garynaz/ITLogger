@@ -9,42 +9,59 @@ import SwiftUI
 
 struct TicketView: View {
         
+    @EnvironmentObject var ticketStatus : UpdateModel
+    
     var body: some View {
         List{
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Text("Health Bound")
-                        .font(.system(size: 20, weight: .bold))
-                        .fixedSize()
-                    Text("Jan 11")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .fixedSize()
-                        .foregroundColor(.secondary)
-                    Text("Completed")
-                        .padding()
-                        .frame(width: .infinity, height: 50)
-                        .background(Color.green)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .lineLimit(1)
-                        .fixedSize()
-                        .padding(.leading,90)
-                }.padding(.bottom, 5)
-
-                Text("Submitted By: Gary Nazarian")
-                    .font(.system(size: 15, weight: .light))
-                    .padding(.bottom, 5)
-
-                Text("Can you please check my Outlook. It's constantly freezing and I'm not receiving my emails.")
-                    .lineLimit(2)
-                    .foregroundColor(.gray)
+            ForEach(ticketStatus.updateData){ ticket in
+                NavigationLink(
+                    destination: DetailView(ticketDetail: ticket)){
+                    VStack(alignment: .leading) {
+                        Text(ticket.type)
+                            .frame(maxWidth: .infinity)
+                            .padding(.bottom)
+                            .font(.system(size: 20, weight: .semibold))
+                            
+                        HStack(alignment: .center) {
+                            Text(ticket.company)
+                                .font(.system(size: 20, weight: .bold))
+                            Text(ticket.date)
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(ticket.status)
+                                .padding()
+                                .minimumScaleFactor(0.5)
+                                .background(Color.green)
+                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .lineLimit(1)
+                        }.padding(.bottom, 5)
+                        
+                        Text("Submitted By: \(ticket.user)")
+                            .font(.system(size: 15, weight: .light))
+                            .padding(.bottom, 5)
+                        Text(ticket.inquiry)
+                            .lineLimit(2)
+                            .foregroundColor(.gray)
+                    }
+                }
+                
             }
+            .onDelete(perform: { index in
+                self.ticketStatus.updateData.remove(atOffsets: index)
+            })
         }
+        .toolbar(content: {
+            EditButton()
+        })
     }
 }
 
 struct TicketView_Previews: PreviewProvider {
     static var previews: some View {
-        TicketView()
+        NavigationView{
+            TicketView().environmentObject(UpdateModel())
+        }
     }
 }
