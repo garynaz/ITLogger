@@ -25,10 +25,6 @@ struct TicketView: View {
                         HStack(alignment: .center) {
                             Text(ticket.company)
                                 .font(.system(size: 20, weight: .bold))
-                            Text(ticket.date)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.secondary)
                             Spacer()
                             Text(ticket.status)
                                 .padding()
@@ -36,8 +32,13 @@ struct TicketView: View {
                                 .background(Color.green)
                                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                                 .lineLimit(1)
-                        }.padding(.bottom, 5)
-                        
+                        }
+                        Text(ticket.date)
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Spacer()
                         Text("Submitted By: \(ticket.user)")
                             .font(.system(size: 15, weight: .light))
                             .padding(.bottom, 5)

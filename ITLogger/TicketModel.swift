@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class UpdateModel: ObservableObject {
-    @Published var updateData: [TicketModel] = [TicketModel(type: "Support", priority: "Urgent", company: "AccessWeb", user: "Gary Naz", inquiry: "This is a test...")]
+    @Published var updateData: [TicketModel] = [TicketModel(type: "Support", priority: "Low", company: "AccessWeb", user: "Gary Nazarian", inquiry: "This is a test...", date: "21:32 Wed, 01 Aug 2021")]
     
     func addTicket(ticket: TicketModel){
         updateData.append(ticket)
@@ -25,5 +25,17 @@ struct TicketModel: Identifiable{
     let company : String
     let user : String
     let inquiry : String
-    let date : String = "Aug 01"
+    let date : String
 }
+
+
+enum Status {
+    case Open
+    case Closed
+    case ReOpened
+    case AwaitingCustomerAction
+    case InProgress
+    case Unfinished
+}
+
+

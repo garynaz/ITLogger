@@ -28,7 +28,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
+            
+            //.onAppear method is used for keyboard management (See extensions bellow...)
+            window.rootViewController = UIHostingController(rootView: contentView
+            .onAppear(perform: UIApplication.shared.addTapGestureRecognizer))
+            
             self.window = window
             window.makeKeyAndVisible()
         }
@@ -68,3 +72,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+
+//Bellow extensions are used to dismiss keyboard upon outside tap gesture.
+extension UIApplication {
+    func addTapGestureRecognizer() {
+        guard let window = windows.first else { return }
+        let tapGesture = UITapGestureRecognizer(target: window, action: #selector(UIView.endEditing))
+        tapGesture.requiresExclusiveTouchType = false
+        tapGesture.cancelsTouchesInView = false
+        tapGesture.delegate = self
+        window.addGestureRecognizer(tapGesture)
+    }
+}
+
+extension UIApplication: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true // set to `false` if you don't want to detect tap during other gestures
+    }
+}
