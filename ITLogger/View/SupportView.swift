@@ -9,14 +9,20 @@ import SwiftUI
 
 struct SupportView: View {
     
-    @EnvironmentObject var supportTicket : UpdateModel
+    init() {
+        UISegmentedControl.appearance().selectedSegmentTintColor = .orange
+        UISegmentedControl.appearance().setTitleTextAttributes(
+            [.foregroundColor : UIColor.white], for: .selected)
+    }
+    
+//    @EnvironmentObject var supportTicket : UpdateModel
     @State private var inquiryText : String = "Enter Your Inquiry..."
     @State private var selectedPriority : String = "Low"
     @State private var companyName : String = ""
     @State private var userName : String = ""
     var placeholderString = "Enter Your Inquiry..."
     var priorities = ["Low", "Medium", "High"]
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.presentationMode) var presentation //Tells the view to dismiss itself using its presentation mode environment key.
     
     
     var body: some View {
@@ -65,11 +71,11 @@ struct SupportView: View {
                         }
                 }
                 Button("Submit Ticket") {
-                    let today = Date()
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "HH:mm E, d MMM y"
+//                    let today = Date()
+//                    let formatter = DateFormatter()
+//                    formatter.dateFormat = "HH:mm E, d MMM y"
                     
-                    supportTicket.addTicket(ticket: TicketModel(type: "Support", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText, date: formatter.string(from: today)))
+//                    supportTicket.addTicket(ticket: TicketModel(type: "Support", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText, date: formatter.string(from: today)))
                     self.presentation.wrappedValue.dismiss()
                 }
                 .frame(width: UIScreen.main.bounds.size.width, height: 70, alignment: .center)

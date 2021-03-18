@@ -23,14 +23,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        let contentView = ContentView().environment(\.managedObjectContext, context)
+        let loginView = LoginView().environment(\.managedObjectContext, context)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
             //.onAppear method is used for keyboard management (See extensions bellow...)
-            window.rootViewController = UIHostingController(rootView: contentView
+            window.rootViewController = UIHostingController(rootView: loginView
             .onAppear(perform: UIApplication.shared.addTapGestureRecognizer))
             
             self.window = window

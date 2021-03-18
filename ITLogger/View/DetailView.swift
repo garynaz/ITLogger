@@ -56,7 +56,7 @@ struct DetailView: View {
             }
             
         }
-        .navigationBarTitle(ticketDetail.company)
+        .navigationBarTitle(ticketDetail.company, displayMode: .inline)
         .listStyle(PlainListStyle())
     }
 }

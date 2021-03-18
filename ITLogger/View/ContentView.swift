@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
     
-    @StateObject var tickets = UpdateModel()
+//    @StateObject var tickets = UpdateModel()
+    
+    @Environment(\.managedObjectContext) var moc
+    
+    @ObservedObject var selectedUser : User //Assign logged in user to this variable...
+    
     
     var body: some View {
         
-        
-        NavigationView{
+//        NavigationView{
             VStack{
                 Spacer()
                 VStack(spacing: 50){
@@ -45,18 +50,26 @@ struct ContentView: View {
                     .font(.system(size: 30))
                 Image(systemName:"person.circle")
                     .font(.system(size: 30))
-                Text("Tester")
+                Text("\("Tester")")
                     .font(.system(size: 20))
             })
             
-        }.environmentObject(tickets)
-        .navigationViewStyle(StackNavigationViewStyle())
+//        }.environmentObject(tickets)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+
     static var previews: some View {
-        ContentView()
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+   //Test data
+        let newUser = User.init(context: context)
+        newUser.username = "Tester"
+        newUser.password = "Test1234"
+        return ContentView(selectedUser: newUser).environment(\.managedObjectContext, context)
+        
+        
     }
 }
 
@@ -87,6 +100,5 @@ struct awButton: View {
         .frame(width: 300, height: 150, alignment: .center)
         .background(backColor)
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-        
     }
 }

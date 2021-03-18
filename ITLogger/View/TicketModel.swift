@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+
+//View Model
 class UpdateModel: ObservableObject {
     @Published var updateData: [TicketModel] = [TicketModel(type: "Support", priority: "Low", company: "AccessWeb", user: "Gary Nazarian", inquiry: "This is a test...", date: "21:32 Wed, 01 Aug 2021")]
     
@@ -17,6 +19,8 @@ class UpdateModel: ObservableObject {
     
 }
 
+
+//Model
 struct TicketModel: Identifiable{
     let id = UUID()
     let type : String

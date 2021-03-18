@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct QuoteView: View {
-    @EnvironmentObject var supportTicket : UpdateModel
+    
+    init() {
+        UISegmentedControl.appearance().selectedSegmentTintColor = .orange
+        UISegmentedControl.appearance().setTitleTextAttributes(
+            [.foregroundColor : UIColor.white], for: .selected)
+    }
+    
+//    @EnvironmentObject var supportTicket : UpdateModel
     @State private var inquiryText : String = "Quote Request..."
     @State private var selectedPriority : String = "Low"
     @State private var companyName : String = ""
@@ -62,12 +69,12 @@ struct QuoteView: View {
                         }
                 }
                 Button("Submit Request") {
-                    let today = Date()
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "HH:mm E, d MMM y"
-                    
-                    supportTicket.addTicket(ticket: TicketModel(type: "Quote", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText, date: formatter.string(from: today)))
-                    self.presentation.wrappedValue.dismiss()
+//                    let today = Date()
+//                    let formatter = DateFormatter()
+//                    formatter.dateFormat = "HH:mm E, d MMM y"
+//
+//                    supportTicket.addTicket(ticket: TicketModel(type: "Quote", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText, date: formatter.string(from: today)))
+//                    self.presentation.wrappedValue.dismiss()
                 }
                 .frame(width: UIScreen.main.bounds.size.width, height: 70, alignment: .center)
                 .font(.title2)
