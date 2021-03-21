@@ -24,6 +24,8 @@ struct SignUpView: View {
     @State private var selectedUser:User?
         
     @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
+
     
     var body: some View {
         
@@ -72,20 +74,17 @@ struct SignUpView: View {
             }
             .padding(.bottom, 50)
             
-            
             NavigationLink(
-                destination: ContentView(selectedUser: self.selectedUser ?? User()),
+                destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc)),
                 isActive: self.$isSignUpValid){
                 Text("Sign Up")
                     .foregroundColor(.blue)
                     .onTapGesture {
-                        
                         let isLoginValid = self.username != "" && self.password != ""
                         
                         createUserObject(company: self.company, name: self.name, username: self.username, password: self.password, photo: self.inputImage)
                         
                         if isLoginValid {
-                            
                             selectedUser = fetchUserDetails(withUser: username)
                             self.isSignUpValid = true //trigger NavLink
                         } else {

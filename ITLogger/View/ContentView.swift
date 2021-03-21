@@ -9,17 +9,16 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    
-//    @StateObject var tickets = UpdateModel()
-    
+        
     @Environment(\.managedObjectContext) var moc
     
     @ObservedObject var selectedUser : User //Assign logged in user to this variable...
     
+    @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
+    
     
     var body: some View {
         
-//        NavigationView{
             VStack{
                 Spacer()
                 VStack(spacing: 50){
@@ -44,17 +43,15 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            .navigationTitle("AccessWeb")
+            .navigationTitle(selectedUser.company!)
             .navigationBarItems(trailing: HStack{
                 Image(systemName: "bell")
                     .font(.system(size: 30))
                 Image(systemName:"person.circle")
                     .font(.system(size: 30))
-                Text("\("Tester")")
+                Text(selectedUser.name!)
                     .font(.system(size: 20))
             })
-            
-//        }.environmentObject(tickets)
     }
 }
 

@@ -22,6 +22,7 @@ struct LoginView: View {
     
     var body: some View {
         NavigationView{
+            
             VStack{
                 Image(uiImage: #imageLiteral(resourceName: "awText"))
                     .resizable()
@@ -38,25 +39,24 @@ struct LoginView: View {
                     Divider()
                 
                 NavigationLink(
-                    destination: ContentView(selectedUser: self.selectedUser ?? User()),
-                    isActive: self.$isLoginValid,
-                    label: {
-                        Text("Login")
-                    })
-                    .onTapGesture {
-                        selectedUser = fetchUserDetails(withUser: username)
-                        let isLoginValid = self.username == selectedUser?.username && self.password == selectedUser?.password
-                        
-                        if isLoginValid {
-                            self.isLoginValid = true //trigger NavLink
-                        } else {
-                            self.shoudlShowLoginAlert = true
+                    destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc)),
+                    isActive: self.$isLoginValid){
+                    Text("Login")
+                        .onTapGesture {
+                            selectedUser = fetchUserDetails(withUser: username)
+                            let isLoginValid = self.username == selectedUser?.username && self.password == selectedUser?.password
+                            if isLoginValid {
+                                self.isLoginValid = true //trigger NavLink
+                            } else {
+                                self.shoudlShowLoginAlert = true
+                            }
                         }
-                    }
-                    .frame(width: 300, height: 50)
-                    .background(Color.green)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    .padding()
+                        .frame(width: 300, height: 50)
+                        .background(Color.green)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .padding()
+                }
+                
                 
                 NavigationLink(
                     destination: SignUpView(),
@@ -72,6 +72,7 @@ struct LoginView: View {
                 Alert(title: Text("Email/Password Incorrect"))
             })
         }
+        .navigationViewStyle(StackNavigationViewStyle()) //Makes the constraints error for navigationTitle go away...(Xcode issue)
         
     }
 }
@@ -116,6 +117,7 @@ func createUserObject(company: String, name: String, username: String, password:
 
     do {
         try context.save()
+        print("New User Created")
     } catch {
         print(error)
     }
