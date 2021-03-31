@@ -11,43 +11,44 @@ struct TicketView: View {
         
     @EnvironmentObject var ticketStatus : UpdateModel
     
+    @ObservedObject var selectedUser : User
+    
     var body: some View {
         List{
-            ForEach(ticketStatus.updateData){ ticket in
+            ForEach(Array(selectedUser.tickets! as Set), id: \.self) { ticket in
                 NavigationLink(
-                    destination: DetailView(ticketDetail: ticket)){
+                    destination: DetailView(selectedTicket: ticket as! Ticket)){
                     VStack(alignment: .leading) {
-                        Text(ticket.type)
+                        Text("\((ticket as! Ticket).type!)")
                             .frame(maxWidth: .infinity)
                             .padding(.bottom)
                             .font(.system(size: 20, weight: .semibold))
-                            
+
                         HStack(alignment: .center) {
-                            Text(ticket.company)
+                            Text("\(((ticket as! Ticket).user?.company!)!)")
                                 .font(.system(size: 20, weight: .bold))
                             Spacer()
-                            Text(ticket.status)
+                            Text("\((ticket as! Ticket).status!)")
                                 .padding()
                                 .minimumScaleFactor(0.5)
                                 .background(Color.green)
                                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                                 .lineLimit(1)
                         }
-                        Text(ticket.date)
+                        Text("\((ticket as! Ticket).date!)")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(.secondary)
                         Spacer()
                         Spacer()
-                        Text("Submitted By: \(ticket.user)")
+                        Text("Submitted By: \(((ticket as! Ticket).user?.name)!)")
                             .font(.system(size: 15, weight: .light))
                             .padding(.bottom, 5)
-                        Text(ticket.inquiry)
+                        Text("\((ticket as! Ticket).inquiry!)")
                             .lineLimit(2)
                             .foregroundColor(.gray)
                     }
                 }
-                
             }
             .onDelete(perform: { index in
                 self.ticketStatus.updateData.remove(atOffsets: index)
@@ -61,8 +62,13 @@ struct TicketView: View {
 
 struct TicketView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView{
-            TicketView().environmentObject(UpdateModel())
-        }
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let newUser = User.init(context: context)
+        newUser.username = "Tester"
+        newUser.password = "Test1234"
+        
+        return TicketView(selectedUser: newUser).environment(\.managedObjectContext, context)
+
     }
 }

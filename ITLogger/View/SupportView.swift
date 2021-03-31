@@ -9,17 +9,16 @@ import SwiftUI
 
 struct SupportView: View {
     
-    init() {
-        UISegmentedControl.appearance().selectedSegmentTintColor = .orange
-        UISegmentedControl.appearance().setTitleTextAttributes(
-            [.foregroundColor : UIColor.white], for: .selected)
+    init(selectedUser:User) {
+        self.selectedUser = selectedUser
     }
     
-//    @EnvironmentObject var supportTicket : UpdateModel
+    @ObservedObject var selectedUser : User
+    @Environment(\.managedObjectContext) var moc
+    
     @State private var inquiryText : String = "Enter Your Inquiry..."
     @State private var selectedPriority : String = "Low"
-    @State private var companyName : String = ""
-    @State private var userName : String = ""
+
     var placeholderString = "Enter Your Inquiry..."
     var priorities = ["Low", "Medium", "High"]
     @Environment(\.presentationMode) var presentation //Tells the view to dismiss itself using its presentation mode environment key.
@@ -32,14 +31,14 @@ struct SupportView: View {
                     HStack {
                         Image(systemName: "building.2.crop.circle")
                             .font(.system(size: 40))
-                        TextField("Company", text: $companyName)
+                        TextField("Company", text: $selectedUser.company ?? "")
                     }
                     .offset(x: UIScreen.main.bounds.width / 2 - 120)
                     
                     HStack {
                         Image(systemName: "person.circle")
                             .font(.system(size: 40))
-                        TextField("User", text: $userName)
+                        TextField("User", text: $selectedUser.name ?? "")
                         
                     }
                     .offset(x: UIScreen.main.bounds.width / 2 - 120)
@@ -71,11 +70,7 @@ struct SupportView: View {
                         }
                 }
                 Button("Submit Ticket") {
-//                    let today = Date()
-//                    let formatter = DateFormatter()
-//                    formatter.dateFormat = "HH:mm E, d MMM y"
-                    
-//                    supportTicket.addTicket(ticket: TicketModel(type: "Support", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText, date: formatter.string(from: today)))
+                    createTicketObject(user: selectedUser, inquiry: inquiryText, priority: selectedPriority, status: "OPEN", type: "Support")
                     self.presentation.wrappedValue.dismiss()
                 }
                 .frame(width: UIScreen.main.bounds.size.width, height: 70, alignment: .center)
@@ -90,6 +85,13 @@ struct SupportView: View {
 
 struct SupportView_Previews: PreviewProvider {
     static var previews: some View {
-        SupportView()
+//        SupportView()
+
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+   //Test data
+        let newUser = User.init(context: context)
+        newUser.username = "Tester"
+        newUser.password = "Test1234"
+        return SupportView(selectedUser: newUser).environment(\.managedObjectContext, context)
     }
 }

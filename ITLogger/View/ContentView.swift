@@ -9,13 +9,10 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-        
-    @Environment(\.managedObjectContext) var moc
-    
+            
     @ObservedObject var selectedUser : User //Assign logged in user to this variable...
-    
-    @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
-    
+        
+    @State var selectedImageArray : [UIImage]
     
     var body: some View {
         
@@ -23,19 +20,19 @@ struct ContentView: View {
                 Spacer()
                 VStack(spacing: 50){
                     
-                    NavigationLink(destination: SupportView()){
+                    NavigationLink(destination: SupportView(selectedUser: self.selectedUser)){
                         awButton(content: "Request Support", backColor: Color(#colorLiteral(red: 0, green: 0.723585546, blue: 0.9907287955, alpha: 1)))
                             .shadow(color: Color.primary.opacity(0.5), radius: 20, x: 0, y: 20)
                             .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))
                     }
 
-                    NavigationLink(destination: QuoteView()){
+                    NavigationLink(destination: QuoteView(selectedUser: self.selectedUser)){
                         awButton(content: "Request Quote", backColor: Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
                             .shadow(color: Color.primary.opacity(0.5), radius: 20, x: 0, y: 20)
                             .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))
                     }
 
-                    NavigationLink(destination: TicketView()){
+                    NavigationLink(destination: TicketView(selectedUser: self.selectedUser)){
                         awButton(content: "Ticket Status", backColor: Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)))
                             .shadow(color: Color.primary.opacity(0.5), radius: 20, x: 0, y: 20)
                             .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))
@@ -47,8 +44,11 @@ struct ContentView: View {
             .navigationBarItems(trailing: HStack{
                 Image(systemName: "bell")
                     .font(.system(size: 30))
-                Image(systemName:"person.circle")
-                    .font(.system(size: 30))
+                Image(uiImage: selectedImageArray.first!)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .frame(width: 50, height: 50)
                 Text(selectedUser.name!)
                     .font(.system(size: 20))
             })
@@ -64,9 +64,7 @@ struct ContentView_Previews: PreviewProvider {
         let newUser = User.init(context: context)
         newUser.username = "Tester"
         newUser.password = "Test1234"
-        return ContentView(selectedUser: newUser).environment(\.managedObjectContext, context)
-        
-        
+        return ContentView(selectedUser: newUser, selectedImageArray: [UIImage(systemName: "person.circle")!]).environment(\.managedObjectContext, context)
     }
 }
 
@@ -98,4 +96,19 @@ struct awButton: View {
         .background(backColor)
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
+}
+
+//Produces an Array of Images from a Data object.
+func imagesFromCoreData(object: Data?) -> [UIImage]? {
+    var retVal = [UIImage]()
+
+    guard let object = object else { return nil }
+    if let dataArray = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: object) {
+        for data in dataArray {
+            if let data = data as? Data, let image = UIImage(data: data) {
+                retVal.append(image)
+            }
+        }
+    }
+    return retVal
 }

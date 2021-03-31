@@ -9,17 +9,18 @@ import SwiftUI
 
 struct QuoteView: View {
     
-    init() {
+    init(selectedUser:User) {
         UISegmentedControl.appearance().selectedSegmentTintColor = .orange
         UISegmentedControl.appearance().setTitleTextAttributes(
             [.foregroundColor : UIColor.white], for: .selected)
+        self.selectedUser = selectedUser
     }
     
-//    @EnvironmentObject var supportTicket : UpdateModel
+    @ObservedObject var selectedUser : User
+
     @State private var inquiryText : String = "Quote Request..."
     @State private var selectedPriority : String = "Low"
-    @State private var companyName : String = ""
-    @State private var userName : String = ""
+    
     var placeholderString = "Quote Request..."
     var priorities = ["Low", "Medium", "High"]
     @Environment(\.presentationMode) var presentation
@@ -32,7 +33,7 @@ struct QuoteView: View {
                     HStack {
                         Image(systemName: "building.2.crop.circle")
                             .font(.system(size: 40))
-                        TextField("Company", text: $companyName)
+                        TextField("Company", text: $selectedUser.company ?? "")
                         
                     }
                     .offset(x: UIScreen.main.bounds.width / 2 - 120)
@@ -40,7 +41,7 @@ struct QuoteView: View {
                     HStack {
                         Image(systemName: "person.circle")
                             .font(.system(size: 40))
-                        TextField("User", text: $userName)
+                        TextField("User", text: $selectedUser.name ?? "")
                         
                     }
                     .offset(x: UIScreen.main.bounds.width / 2 - 120)
@@ -69,12 +70,8 @@ struct QuoteView: View {
                         }
                 }
                 Button("Submit Request") {
-//                    let today = Date()
-//                    let formatter = DateFormatter()
-//                    formatter.dateFormat = "HH:mm E, d MMM y"
-//
-//                    supportTicket.addTicket(ticket: TicketModel(type: "Quote", priority: selectedPriority, company: companyName, user: userName, inquiry: inquiryText, date: formatter.string(from: today)))
-//                    self.presentation.wrappedValue.dismiss()
+                    createTicketObject(user: selectedUser, inquiry: inquiryText, priority: selectedPriority, status: "OPEN", type: "Quote")
+                    self.presentation.wrappedValue.dismiss()
                 }
                 .frame(width: UIScreen.main.bounds.size.width, height: 70, alignment: .center)
                 .font(.title2)
@@ -87,6 +84,12 @@ struct QuoteView: View {
 
 struct QuoteView_Previews: PreviewProvider {
     static var previews: some View {
-        QuoteView()
+//        QuoteView()
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+   //Test data
+        let newUser = User.init(context: context)
+        newUser.username = "Tester"
+        newUser.password = "Test1234"
+        return QuoteView(selectedUser: newUser).environment(\.managedObjectContext, context)
     }
 }

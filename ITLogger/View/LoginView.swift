@@ -13,7 +13,13 @@ struct LoginView: View {
     @State private var password : String = ""
     
     @State private var isLoginValid: Bool = false
-    @State private var shoudlShowLoginAlert: Bool = false
+    @State private var shouldShowLoginAlert: Bool = false
+    
+    @State var selectedImageArray : [UIImage] = []
+    
+    var disableLoginButton : Bool {
+        return self.username.isEmpty || self.password.isEmpty
+    }
     
     @State private var selectedUser:User?
     
@@ -31,31 +37,48 @@ struct LoginView: View {
                 
                 TextField("Username", text: $username)
                     .padding(.leading)
-                    Divider()
+                Divider()
                     .padding(.bottom)
+                    .onChange(of: self.username, perform: { value in
+                        if value.count > 10 {
+                            self.username = String(value.prefix(10)) //Max 10 Characters for Username.
+                        }
+                    })
+                    .disableAutocorrection(true)
                 
-                TextField("Password", text: $password)
+                SecureField("Password", text: $password)
                     .padding(.leading)
-                    Divider()
+                Divider()
+                    .onChange(of: self.username, perform: { value in
+                        if value.count > 10 {
+                            self.username = String(value.prefix(10)) //Max 10 Characters for Password.
+                        }
+                    })
+                    .disableAutocorrection(true)
                 
                 NavigationLink(
-                    destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc)),
+                    destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray),
                     isActive: self.$isLoginValid){
                     Text("Login")
                         .onTapGesture {
                             selectedUser = fetchUserDetails(withUser: username)
-                            let isLoginValid = self.username == selectedUser?.username && self.password == selectedUser?.password
-                            if isLoginValid {
+                            
+                            if self.username == selectedUser?.username && self.password == selectedUser?.password {
+                                
+                                self.selectedImageArray = imagesFromCoreData(object: selectedUser!.photo!)!
+                                
                                 self.isLoginValid = true //trigger NavLink
                             } else {
-                                self.shoudlShowLoginAlert = true
+                                self.shouldShowLoginAlert = true
                             }
+                            
                         }
                         .frame(width: 300, height: 50)
                         .background(Color.green)
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .padding()
                 }
+                .disabled(disableLoginButton)
                 
                 
                 NavigationLink(
@@ -68,13 +91,21 @@ struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             }
             .navigationTitle("AW Support")
-            .alert(isPresented: $shoudlShowLoginAlert, content: {
+            .alert(isPresented: $shouldShowLoginAlert, content: {
                 Alert(title: Text("Email/Password Incorrect"))
             })
         }
         .navigationViewStyle(StackNavigationViewStyle()) //Makes the constraints error for navigationTitle go away...(Xcode issue)
         
     }
+}
+
+//Allows for the use of Optionals where Binding parameters are required (Ex.TextFields).
+func ??<T>(lhs: Binding<Optional<T>>, rhs: T) -> Binding<T> {
+    Binding(
+        get: { lhs.wrappedValue ?? rhs },
+        set: { lhs.wrappedValue = $0 }
+    )
 }
 
 func fetchUserDetails(withUser user: String) -> User? {
@@ -98,9 +129,9 @@ func createUserObject(company: String, name: String, username: String, password:
     func coreDataObjectFromImages(image: UIImage) -> Data? {
         let dataArray = NSMutableArray()
         
-            if let data = image.pngData() {
-                dataArray.add(data)
-            }
+        if let data = image.pngData() {
+            dataArray.add(data)
+        }
         return try? NSKeyedArchiver.archivedData(withRootObject: dataArray, requiringSecureCoding: true)
     }
     
@@ -114,10 +145,36 @@ func createUserObject(company: String, name: String, username: String, password:
     newUser.username = username
     newUser.password = password
     newUser.photo = coreDataObjectFromImages(image: (photo ?? UIImage(systemName:"person.circle")!))
-
+    
     do {
         try context.save()
         print("New User Created")
+    } catch {
+        print(error)
+    }
+}
+
+func createTicketObject(user: User, inquiry: String, priority: String, status: String, type: String){
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    let today = Date()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm E, d MMM y"
+    
+    let newTicket = Ticket(context: context)
+    newTicket.id = UUID()
+    newTicket.date = formatter.string(from: today)
+    newTicket.inquiry = inquiry
+    newTicket.priority = priority
+    newTicket.status = status
+    newTicket.type = type
+    
+    user.addToTickets(newTicket)
+    
+    do {
+        try context.save()
+        print("New Ticket Created")
     } catch {
         print(error)
     }

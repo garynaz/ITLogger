@@ -16,7 +16,7 @@ extension Ticket {
         return NSFetchRequest<Ticket>(entityName: "Ticket")
     }
 
-    @NSManaged public var date: Date?
+    @NSManaged public var date: String?
     @NSManaged public var inquiry: String?
     @NSManaged public var priority: String?
     @NSManaged public var status: String?

@@ -20,43 +20,71 @@ struct SignUpView: View {
     @State private var inputImage: UIImage?
     
     @State private var isSignUpValid: Bool = false
-    @State private var shoudlShowSignUpAlert: Bool = false
     @State private var selectedUser:User?
-        
+    
+    @State var selectedImageArray : [UIImage] = []
+    
+    var disableSignUpButton : Bool {
+        return self.username.isEmpty || self.password.isEmpty || self.name.isEmpty || self.company.isEmpty
+    }
+    
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
-
+    
     
     var body: some View {
         
         VStack{
-
+            
             TextField("Company", text: $company)
                 .padding(.leading)
             Divider()
                 .padding(.bottom)
+                .onChange(of: self.company, perform: { value in
+                    if value.count > 30 {
+                        self.company = String(value.prefix(30))
+                    }
+                })
+                .disableAutocorrection(true)
             
             TextField("First and Last Name", text: $name)
                 .padding(.leading)
             Divider()
                 .padding(.bottom, 30)
+                .onChange(of: self.name, perform: { value in
+                    if value.count > 30 {
+                        self.name = String(value.prefix(30))
+                    }
+                })
+                .disableAutocorrection(true)
             
             TextField("Username", text: $username)
                 .padding(.leading)
             Divider()
                 .padding(.bottom)
+                .onChange(of: self.username, perform: { value in
+                    if value.count > 30 {
+                        self.username = String(value.prefix(30))
+                    }
+                })
+                .disableAutocorrection(true)
             
             SecureField("Password", text: $password)
                 .padding(.leading)
-                
             Divider()
                 .padding(.bottom, 50)
+                .onChange(of: self.password, perform: { value in
+                    if value.count > 30 {
+                        self.password = String(value.prefix(30))
+                    }
+                })
+                .disableAutocorrection(true)
             
             ZStack{
                 Circle()
                     .fill(Color.secondary)
                     .frame(width: 200, height: 200)
-                    
+                
                 if photo != nil {
                     photo?
                         .resizable()
@@ -75,34 +103,26 @@ struct SignUpView: View {
             .padding(.bottom, 50)
             
             NavigationLink(
-                destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc)),
+                destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray),
                 isActive: self.$isSignUpValid){
                 Text("Sign Up")
-                    .foregroundColor(.blue)
                     .onTapGesture {
-                        let isLoginValid = self.username != "" && self.password != ""
-                        
                         createUserObject(company: self.company, name: self.name, username: self.username, password: self.password, photo: self.inputImage)
-                        
-                        if isLoginValid {
-                            selectedUser = fetchUserDetails(withUser: username)
-                            self.isSignUpValid = true //trigger NavLink
-                        } else {
-                            self.shoudlShowSignUpAlert = true
-                        }
+                        selectedUser = fetchUserDetails(withUser: username)
+                        self.selectedImageArray = imagesFromCoreData(object: selectedUser!.photo!)!
+                        isSignUpValid = true
                     }
             }
+            .disabled(disableSignUpButton)
             .frame(width: 300, height: 50)
             .background(Color.green)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            
         }
         .sheet(isPresented: $showingImagePicker, onDismiss: loadImage){
             ImagePicker(image: self.$inputImage)
         }
         .navigationTitle("Sign Up")
-        .alert(isPresented: $shoudlShowSignUpAlert, content: {
-            Alert(title: Text("Fill it out correctly!"))
-        })
     }
     
     func loadImage(){
