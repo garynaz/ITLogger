@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-
+    
     @ObservedObject var selectedTicket : Ticket
     
     var body: some View {

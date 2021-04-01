@@ -85,8 +85,6 @@ struct SupportView: View {
 
 struct SupportView_Previews: PreviewProvider {
     static var previews: some View {
-//        SupportView()
-
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
    //Test data
         let newUser = User.init(context: context)

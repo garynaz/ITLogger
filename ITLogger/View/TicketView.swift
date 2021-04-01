@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TicketView: View {
-        
-    @EnvironmentObject var ticketStatus : UpdateModel
-    
+            
+    @Environment(\.managedObjectContext) var moc
     @ObservedObject var selectedUser : User
+    
     
     var body: some View {
         List{
@@ -50,8 +50,16 @@ struct TicketView: View {
                     }
                 }
             }
-            .onDelete(perform: { index in
-                self.ticketStatus.updateData.remove(atOffsets: index)
+            .onDelete(perform: { selectedIndex in
+                let selectedTicket = Array(selectedUser.tickets! as Set)[selectedIndex.first!]
+//                selectedUser.removeFromTickets(selectedTicket as! Ticket)
+                    self.moc.delete(selectedTicket as! Ticket)
+
+                    do {
+                        try self.moc.save()
+                    } catch {
+                        print(error)
+                    }
             })
         }
         .toolbar(content: {
