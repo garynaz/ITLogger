@@ -60,11 +60,11 @@ struct TicketView: View {
                     } catch {
                         print(error)
                     }
-            })
+            }).animation(.default)
         }
         .toolbar(content: {
             EditButton()
-        })
+        }).animation(.default)
     }
 }
 

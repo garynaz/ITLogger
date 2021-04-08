@@ -10,6 +10,8 @@ import CoreData
 
 struct SignUpView: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
     @State private var name: String = ""
     @State private var company: String = ""
     @State private var username: String = ""
@@ -24,16 +26,15 @@ struct SignUpView: View {
     
     @State var selectedImageArray : [UIImage] = []
     
+    @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
+
     var disableSignUpButton : Bool {
         return self.username.isEmpty || self.password.isEmpty || self.name.isEmpty || self.company.isEmpty
     }
     
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
     
     
     var body: some View {
-        
         VStack{
             
             TextField("Company", text: $company)

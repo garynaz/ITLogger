@@ -9,22 +9,18 @@ import SwiftUI
 import CoreData
 
 struct LoginView: View {
+    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var goToContentView:moveToContentView
+    
+    @State private var selectedUser:User?
     @State private var username : String = ""
     @State private var password : String = ""
-    
-    @State private var isLoginValid: Bool = false
     @State private var shouldShowLoginAlert: Bool = false
-    
     @State var selectedImageArray : [UIImage] = []
-    
+        
     var disableLoginButton : Bool {
         return self.username.isEmpty || self.password.isEmpty
     }
-    
-    @State private var selectedUser:User?
-    
-    @Environment(\.managedObjectContext) var moc
-    
     
     var body: some View {
         NavigationView{
@@ -58,20 +54,17 @@ struct LoginView: View {
                 
                 NavigationLink(
                     destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray),
-                    isActive: self.$isLoginValid){
+                    isActive: self.$goToContentView.goToContentView){
                     Text("Login")
                         .onTapGesture {
                             selectedUser = fetchUserDetails(withUser: username)
                             
                             if self.username == selectedUser?.username && self.password == selectedUser?.password {
-                                
                                 self.selectedImageArray = imagesFromCoreData(object: selectedUser!.photo!)!
-                                
-                                self.isLoginValid = true //trigger NavLink
+                                self.goToContentView.goToContentView = true
                             } else {
                                 self.shouldShowLoginAlert = true
                             }
-                            
                         }
                         .frame(width: 300, height: 50)
                         .background(Color.green)
@@ -80,15 +73,14 @@ struct LoginView: View {
                 }
                 .disabled(disableLoginButton)
                 
-                
-                NavigationLink(
-                    destination: SignUpView(),
-                    label: {
-                        Text("Sign Up")
-                    })
-                    .frame(width: 300, height: 50)
-                    .background(Color.orange)
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                NavigationLink(destination: SignUpView(), isActive: self.$goToContentView.goToContentView, label: {
+                    Text("Sign Up").onTapGesture {
+                        self.goToContentView.goToContentView = true
+                    }
+                })
+                .frame(width: 300, height: 50)
+                .background(Color.orange)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             }
             .navigationTitle("AW Support")
             .alert(isPresented: $shouldShowLoginAlert, content: {
@@ -96,7 +88,6 @@ struct LoginView: View {
             })
         }
         .navigationViewStyle(StackNavigationViewStyle()) //Makes the constraints error for navigationTitle go away...(Xcode issue)
-        
     }
 }
 
@@ -180,9 +171,9 @@ func createTicketObject(user: User, inquiry: String, priority: String, status: S
     }
 }
 
-
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
     }
 }
+

@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             //.onAppear method is used for keyboard management (See extensions bellow...)
-            window.rootViewController = UIHostingController(rootView: loginView
+            window.rootViewController = UIHostingController(rootView: loginView.environmentObject(moveToContentView())
             .onAppear(perform: UIApplication.shared.addTapGestureRecognizer))
             
             self.window = window
@@ -89,4 +89,8 @@ extension UIApplication: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true // set to `false` if you don't want to detect tap during other gestures
     }
+}
+
+class moveToContentView: ObservableObject {
+    @Published var goToContentView:Bool = false
 }

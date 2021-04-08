@@ -9,9 +9,10 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-            
+    
+    @EnvironmentObject var goToContentView: moveToContentView
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var selectedUser : User //Assign logged in user to this variable...
-        
     @State var selectedImageArray : [UIImage]
     
     var body: some View {
@@ -40,8 +41,15 @@ struct ContentView: View {
                 }
                 Spacer()
             }
+            .navigationBarBackButtonHidden(true)
             .navigationTitle(selectedUser.company!)
-            .navigationBarItems(trailing: HStack{
+            .navigationBarItems(leading: Button(action: {
+                self.goToContentView.goToContentView = false
+            }) {
+                HStack {
+                    Text("Sign Out")
+                }
+            },trailing: HStack{
                 Image(systemName: "bell")
                     .font(.system(size: 30))
                 Image(uiImage: selectedImageArray.first!)
@@ -67,7 +75,6 @@ struct ContentView_Previews: PreviewProvider {
         return ContentView(selectedUser: newUser, selectedImageArray: [UIImage(systemName: "person.circle")!]).environment(\.managedObjectContext, context)
     }
 }
-
 
 
 struct awButton: View {

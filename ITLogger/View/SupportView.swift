@@ -59,7 +59,7 @@ struct SupportView: View {
                     
                     
                     TextEditor(text: $inquiryText)
-                        .foregroundColor(inquiryText == placeholderString ? .gray : .black)
+                        .foregroundColor(.primary)
                         .frame(width: UIScreen.main.bounds.size.width - 20, height: 450, alignment: .leading)
                         .background(Color.black)
                         .border(Color.gray)
