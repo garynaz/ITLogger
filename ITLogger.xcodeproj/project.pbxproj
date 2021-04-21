@@ -25,6 +25,7 @@
 		DDB3687F25FE90540084FD73 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3687E25FE90540084FD73 /* SignUpView.swift */; };
 		DDB3688225FEC3F20084FD73 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3688125FEC3F20084FD73 /* ImagePicker.swift */; };
 		DDBD4FF125EC5A6900D74506 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD4FF025EC5A6900D74506 /* DetailView.swift */; };
+		DDC8641C2626170C008C11A9 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC8641B2626170C008C11A9 /* KeyboardHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		DDB3687E25FE90540084FD73 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		DDB3688125FEC3F20084FD73 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		DDBD4FF025EC5A6900D74506 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		DDC8641B2626170C008C11A9 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 		DDB3687525FE8FEC0084FD73 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DDC8641B2626170C008C11A9 /* KeyboardHandler.swift */,
 				DDA0B92E25E5CA0100D3DD6A /* ContentView.swift */,
 				DDB3687B25FE90480084FD73 /* LoginView.swift */,
 				DDB3687E25FE90540084FD73 /* SignUpView.swift */,
@@ -212,6 +215,7 @@
 				DDA0B92F25E5CA0100D3DD6A /* ContentView.swift in Sources */,
 				DD67C73A26024F9D00B3EBBF /* Ticket+CoreDataProperties.swift in Sources */,
 				DD67C73B26024F9D00B3EBBF /* User+CoreDataClass.swift in Sources */,
+				DDC8641C2626170C008C11A9 /* KeyboardHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

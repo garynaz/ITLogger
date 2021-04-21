@@ -9,6 +9,8 @@ import SwiftUI
 import CoreData
 
 struct LoginView: View {
+    @StateObject private var keyboardHandler = KeyboardHandler()
+    
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var goToContentView:moveToContentView
     
@@ -23,6 +25,7 @@ struct LoginView: View {
     }
     
     var body: some View {
+        
         NavigationView{
             
             VStack{
@@ -33,7 +36,7 @@ struct LoginView: View {
                 
                 TextField("Username", text: $username)
                     .padding(.leading)
-                Divider()
+                    Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 1, alignment: .center).padding(.bottom)
                     .padding(.bottom)
                     .onChange(of: self.username, perform: { value in
                         if value.count > 10 {
@@ -44,7 +47,7 @@ struct LoginView: View {
                 
                 SecureField("Password", text: $password)
                     .padding(.leading)
-                Divider()
+                    Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 1, alignment: .center)
                     .onChange(of: self.username, perform: { value in
                         if value.count > 10 {
                             self.username = String(value.prefix(10)) //Max 10 Characters for Password.
@@ -54,14 +57,16 @@ struct LoginView: View {
                 
                 NavigationLink(
                     destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray),
-                    isActive: self.$goToContentView.goToContentView){
+                    isActive: self.$goToContentView.goToViewFromLogin){
                     Text("Login")
                         .onTapGesture {
                             selectedUser = fetchUserDetails(withUser: username)
                             
                             if self.username == selectedUser?.username && self.password == selectedUser?.password {
                                 self.selectedImageArray = imagesFromCoreData(object: selectedUser!.photo!)!
-                                self.goToContentView.goToContentView = true
+                                print(self.selectedUser!)
+                                self.goToContentView.goToViewFromLogin = true
+                                
                             } else {
                                 self.shouldShowLoginAlert = true
                             }
@@ -73,9 +78,9 @@ struct LoginView: View {
                 }
                 .disabled(disableLoginButton)
                 
-                NavigationLink(destination: SignUpView(), isActive: self.$goToContentView.goToContentView, label: {
+                NavigationLink(destination: SignUpView(), isActive: self.$goToContentView.goToViewFromRegister, label: {
                     Text("Sign Up").onTapGesture {
-                        self.goToContentView.goToContentView = true
+                        self.goToContentView.goToViewFromRegister = true
                     }
                 })
                 .frame(width: 300, height: 50)

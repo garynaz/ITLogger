@@ -44,7 +44,13 @@ struct ContentView: View {
             .navigationBarBackButtonHidden(true)
             .navigationTitle(selectedUser.company!)
             .navigationBarItems(leading: Button(action: {
-                self.goToContentView.goToContentView = false
+                
+                if self.goToContentView.goToViewFromLogin == true {
+                    self.goToContentView.goToViewFromLogin = false
+                } else {
+                    self.goToContentView.goToViewFromRegister = false
+                }
+                
             }) {
                 HStack {
                     Text("Sign Out")

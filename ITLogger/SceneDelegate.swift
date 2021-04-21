@@ -92,5 +92,6 @@ extension UIApplication: UIGestureRecognizerDelegate {
 }
 
 class moveToContentView: ObservableObject {
-    @Published var goToContentView:Bool = false
+    @Published var goToViewFromLogin:Bool = false
+    @Published var goToViewFromRegister:Bool = false
 }

@@ -34,6 +34,7 @@ struct QuoteView: View {
                         Image(systemName: "building.2.crop.circle")
                             .font(.system(size: 40))
                         TextField("Company", text: $selectedUser.company ?? "")
+                            .disabled(true)
                         
                     }
                     .offset(x: UIScreen.main.bounds.width / 2 - 120)
@@ -42,6 +43,7 @@ struct QuoteView: View {
                         Image(systemName: "person.circle")
                             .font(.system(size: 40))
                         TextField("User", text: $selectedUser.name ?? "")
+                            .disabled(true)
                         
                     }
                     .offset(x: UIScreen.main.bounds.width / 2 - 120)
