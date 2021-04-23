@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 
 struct LoginView: View {
-    @StateObject private var keyboardHandler = KeyboardHandler()
     
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var goToContentView:moveToContentView
