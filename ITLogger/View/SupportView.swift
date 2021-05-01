@@ -25,7 +25,7 @@ struct SupportView: View {
     
     
     var body: some View {
-        ScrollView{
+//        ScrollView{
             VStack{
                 VStack {
                     HStack {
@@ -62,7 +62,8 @@ struct SupportView: View {
                     
                     TextEditor(text: $inquiryText)
                         .foregroundColor(.primary)
-                        .frame(width: UIScreen.main.bounds.size.width - 20, height: 450, alignment: .leading)
+                        .frame(width: UIScreen.main.bounds.size.width - 20)
+                        .frame(maxHeight: .infinity)
                         .background(Color.black)
                         .border(Color.gray)
                         .onTapGesture {
@@ -79,8 +80,9 @@ struct SupportView: View {
                 .font(.title2)
                 .background(Color.gray)
                 .opacity(0.8)
+                
             }
-        }
+//        }
         
     }
 

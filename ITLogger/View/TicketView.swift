@@ -52,7 +52,6 @@ struct TicketView: View {
             }
             .onDelete(perform: { selectedIndex in
                 let selectedTicket = Array(selectedUser.tickets! as Set)[selectedIndex.first!]
-//                selectedUser.removeFromTickets(selectedTicket as! Ticket)
                     self.moc.delete(selectedTicket as! Ticket)
 
                     do {

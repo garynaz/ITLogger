@@ -27,7 +27,7 @@ struct SignUpView: View {
     @State var selectedImageArray : [UIImage] = []
     
     @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
-
+    
     var disableSignUpButton : Bool {
         return self.username.isEmpty || self.password.isEmpty || self.name.isEmpty || self.company.isEmpty
     }
