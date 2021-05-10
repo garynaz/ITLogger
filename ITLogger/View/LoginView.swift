@@ -28,6 +28,7 @@ struct LoginView: View {
         NavigationView{
             
             VStack{
+                
                 Image(uiImage: #imageLiteral(resourceName: "awText"))
                     .resizable()
                     .frame(width: 180, height: 100)
@@ -35,6 +36,7 @@ struct LoginView: View {
                 
                 TextField("Username", text: $username)
                     .padding(.leading)
+                    .disableAutocorrection(true)
                     Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 1, alignment: .center).padding(.bottom)
                     .padding(.bottom)
                     .onChange(of: self.username, perform: { value in
@@ -42,20 +44,21 @@ struct LoginView: View {
                             self.username = String(value.prefix(10)) //Max 10 Characters for Username.
                         }
                     })
-                    .disableAutocorrection(true)
+                    
                 
                 SecureField("Password", text: $password)
                     .padding(.leading)
+                    .disableAutocorrection(true)
                     Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 1, alignment: .center)
                     .onChange(of: self.username, perform: { value in
                         if value.count > 10 {
                             self.username = String(value.prefix(10)) //Max 10 Characters for Password.
                         }
                     })
-                    .disableAutocorrection(true)
+                    
                 
                 NavigationLink(
-                    destination: ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray),
+                    destination: getDestination(from: selectedUser?.admin ?? false),
                     isActive: self.$goToContentView.goToViewFromLogin){
                     Text("Login")
                         .onTapGesture {
@@ -90,9 +93,21 @@ struct LoginView: View {
             .alert(isPresented: $shouldShowLoginAlert, content: {
                 Alert(title: Text("Email/Password Incorrect"))
             })
+        
         }
         .navigationViewStyle(StackNavigationViewStyle()) //Makes the constraints error for navigationTitle go away...(Xcode issue)
     }
+    
+    //Sets appropariate destination based on value of Admin property.
+    func getDestination(from adminValue: Bool) -> AnyView {
+            if adminValue == false {
+                return AnyView(ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray))
+            }
+            else {
+                return AnyView(AdminView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray))
+            }
+        }
+    
 }
 
 //Allows for the use of Optionals where Binding parameters are required (Ex.TextFields).
@@ -118,7 +133,10 @@ func fetchUserDetails(withUser user: String) -> User? {
     return nil
 }
 
-func createUserObject(company: String, name: String, username: String, password: String, photo: UIImage?){
+
+
+
+func createUserObject(company: String, name: String, username: String, password: String, photo: UIImage?, admin: Bool){
     
     //Produces a Data object from an Array of Images.
     func coreDataObjectFromImages(image: UIImage) -> Data? {
@@ -134,7 +152,7 @@ func createUserObject(company: String, name: String, username: String, password:
     
     let newUser = User(context: context)
     newUser.id = UUID()
-    newUser.admin = false
+    newUser.admin = admin
     newUser.company = company
     newUser.name = name
     newUser.username = username
@@ -180,4 +198,3 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
     }
 }
-

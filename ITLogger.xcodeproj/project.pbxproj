@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD0E6FF6263F4FCE009F4631 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0E6FF5263F4FCE009F4631 /* AdminView.swift */; };
 		DD67C73926024F9D00B3EBBF /* Ticket+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C73526024F9D00B3EBBF /* Ticket+CoreDataClass.swift */; };
 		DD67C73A26024F9D00B3EBBF /* Ticket+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C73626024F9D00B3EBBF /* Ticket+CoreDataProperties.swift */; };
 		DD67C73B26024F9D00B3EBBF /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C73726024F9D00B3EBBF /* User+CoreDataClass.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD0E6FF5263F4FCE009F4631 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		DD67C73526024F9D00B3EBBF /* Ticket+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ticket+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DD67C73626024F9D00B3EBBF /* Ticket+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ticket+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DD67C73726024F9D00B3EBBF /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				DDA0B92E25E5CA0100D3DD6A /* ContentView.swift */,
 				DDB3687B25FE90480084FD73 /* LoginView.swift */,
 				DDB3687E25FE90540084FD73 /* SignUpView.swift */,
+				DD0E6FF5263F4FCE009F4631 /* AdminView.swift */,
 				DDB3688125FEC3F20084FD73 /* ImagePicker.swift */,
 				DDA0B94B25E5CA9C00D3DD6A /* SupportView.swift */,
 				DDA0B94825E5CA8C00D3DD6A /* QuoteView.swift */,
@@ -216,6 +219,7 @@
 				DD67C73A26024F9D00B3EBBF /* Ticket+CoreDataProperties.swift in Sources */,
 				DD67C73B26024F9D00B3EBBF /* User+CoreDataClass.swift in Sources */,
 				DDC8641C2626170C008C11A9 /* KeyboardHandler.swift in Sources */,
+				DD0E6FF6263F4FCE009F4631 /* AdminView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

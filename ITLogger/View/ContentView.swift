@@ -11,8 +11,7 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var goToContentView: moveToContentView
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var selectedUser : User //Assign logged in user to this variable...
+    @ObservedObject var selectedUser : User
     @State var selectedImageArray : [UIImage]
     
     var body: some View {
