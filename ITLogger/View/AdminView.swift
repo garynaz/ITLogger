@@ -10,12 +10,16 @@ import SwiftUI
 struct AdminView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var goToContentView: moveToContentView
-    @ObservedObject var selectedUser : User
+    @Binding var selectedUsername : String
     @State var selectedImageArray : [UIImage]
     
     @FetchRequest(fetchRequest: Ticket.fetchAllTicketDetails()) var allTickets:FetchedResults<Ticket>
     
+
     var body: some View {
+        
+        let selectedUser = fetchUserDetails(withUser: selectedUsername)
+
         List{
             ForEach(self.allTickets) { ticket in
                 VStack{
@@ -58,7 +62,7 @@ struct AdminView: View {
                 
             }
             .onDelete(perform: { selectedIndex in
-                let selectedTicket = Array(selectedUser.tickets! as Set)[selectedIndex.first!]
+                let selectedTicket = Array(selectedUser!.tickets! as Set)[selectedIndex.first!]
                 self.moc.delete(selectedTicket as! Ticket)
                 
                 do {
@@ -94,7 +98,7 @@ struct AdminView: View {
                 .scaledToFit()
                 .clipShape(Circle())
                 .frame(width: 50, height: 50)
-            Text(selectedUser.name!)
+            Text(selectedUser!.name!)
                 .font(.system(size: 20))
         })
         

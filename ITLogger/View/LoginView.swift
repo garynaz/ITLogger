@@ -13,7 +13,7 @@ struct LoginView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var goToContentView:moveToContentView
     
-    @State private var selectedUser:User?
+    @State private var selectedUser : User?
     @State private var username : String = ""
     @State private var password : String = ""
     @State private var shouldShowLoginAlert: Bool = false
@@ -66,9 +66,7 @@ struct LoginView: View {
                             
                             if self.username == selectedUser?.username && self.password == selectedUser?.password {
                                 self.selectedImageArray = imagesFromCoreData(object: selectedUser!.photo!)!
-                                print(self.selectedUser!)
                                 self.goToContentView.goToViewFromLogin = true
-                                
                             } else {
                                 self.shouldShowLoginAlert = true
                             }
@@ -101,10 +99,10 @@ struct LoginView: View {
     //Sets appropariate destination based on value of Admin property.
     func getDestination(from adminValue: Bool) -> AnyView {
             if adminValue == false {
-                return AnyView(ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray))
+                return AnyView(ContentView(selectedUsername: $username, selectedImageArray: self.selectedImageArray))
             }
             else {
-                return AnyView(AdminView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray))
+                return AnyView(AdminView(selectedUsername: $username, selectedImageArray: self.selectedImageArray))
             }
         }
     

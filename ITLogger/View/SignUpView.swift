@@ -154,10 +154,10 @@ struct SignUpView: View {
     func getDestination(from adminValue: Bool) -> AnyView {
         
         if adminValue == false {
-            return AnyView(ContentView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray))
+            return AnyView(ContentView(selectedUsername: $username, selectedImageArray: self.selectedImageArray))
         }
         else {
-            return AnyView(AdminView(selectedUser: self.selectedUser ?? User(context: moc), selectedImageArray: self.selectedImageArray))
+            return AnyView(AdminView(selectedUsername: $username, selectedImageArray: self.selectedImageArray))
         }
     }
     

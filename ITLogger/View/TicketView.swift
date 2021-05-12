@@ -14,6 +14,7 @@ struct TicketView: View {
     
     
     var body: some View {
+        
         List{
             ForEach(Array(selectedUser.tickets! as Set), id: \.self) { ticket in
                 NavigationLink(
@@ -67,15 +68,15 @@ struct TicketView: View {
     }
 }
 
-struct TicketView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let newUser = User.init(context: context)
-        newUser.username = "Tester"
-        newUser.password = "Test1234"
-        
-        return TicketView(selectedUser: newUser).environment(\.managedObjectContext, context)
-
-    }
-}
+//struct TicketView_Previews: PreviewProvider {
+//    static var previews: some View {
+//
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        let newUser = User.init(context: context)
+//        newUser.username = "Tester"
+//        newUser.password = "Test1234"
+//
+//        return TicketView(selectedUser: newUser).environment(\.managedObjectContext, context)
+//
+//    }
+//}
