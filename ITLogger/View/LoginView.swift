@@ -11,7 +11,7 @@ import CoreData
 struct LoginView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @EnvironmentObject var goToContentView:moveToContentView
+    @EnvironmentObject var goToContentView : moveToContentView
     
     @State private var selectedUser : User?
     @State private var username : String = ""
@@ -99,10 +99,10 @@ struct LoginView: View {
     //Sets appropariate destination based on value of Admin property.
     func getDestination(from adminValue: Bool) -> AnyView {
             if adminValue == false {
-                return AnyView(ContentView(selectedUsername: $username, selectedImageArray: self.selectedImageArray))
+                return AnyView(ContentView(selectedUsername: $username, selectedImageArray: self.$selectedImageArray))
             }
             else {
-                return AnyView(AdminView(selectedUsername: $username, selectedImageArray: self.selectedImageArray))
+                return AnyView(AdminView(selectedUsername: $username, selectedImageArray: self.$selectedImageArray))
             }
         }
     
@@ -129,6 +129,25 @@ func fetchUserDetails(withUser user: String) -> User? {
         print("Failed to fetch: \(fetchError)")
     }
     return nil
+}
+
+func fetchUserTicketDetails(inquiry: String) -> Ticket? {
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let fetchRequest = NSFetchRequest<Ticket>(entityName: "Ticket")
+    fetchRequest.fetchLimit = 1
+    fetchRequest.predicate = NSPredicate(format: "inquiry == %@", inquiry)
+
+//    let sortDescriptor = NSSortDescriptor(keyPath: \Ticket.user, ascending: false)
+//    fetchRequest.sortDescriptors = [sortDescriptor]
+    
+    do {
+        let fetchUser = try context.fetch(fetchRequest)
+        return fetchUser.first
+    } catch let fetchError {
+        print("Failed to fetch: \(fetchError)")
+    }
+    return nil
+    
 }
 
 
@@ -193,6 +212,6 @@ func createTicketObject(user: User, inquiry: String, priority: String, status: S
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView().environmentObject(moveToContentView())
     }
 }

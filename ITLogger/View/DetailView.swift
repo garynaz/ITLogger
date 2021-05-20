@@ -10,8 +10,9 @@ import SwiftUI
 struct DetailView: View {
     
     @ObservedObject var selectedTicket : Ticket
-    
+        
     var body: some View {
+        
         List {
             VStack(alignment: .leading) {
                 Text(selectedTicket.type!)
@@ -60,10 +61,13 @@ struct DetailView: View {
 }
 
 struct DetailView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let newTicket = Ticket.init()
+        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+        let fetchedUser = fetchUserDetails(withUser: "Tester")!
+        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+        let fetchedTicket = fetchUserTicketDetails(inquiry: "Help me with emails")
         
-        return DetailView(selectedTicket: newTicket).environment(\.managedObjectContext, context)
+        return DetailView(selectedTicket: fetchedTicket!)
     }
 }

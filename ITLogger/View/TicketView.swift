@@ -10,13 +10,15 @@ import SwiftUI
 struct TicketView: View {
             
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var selectedUser : User
+    @Binding var selectedUsername : String
     
     
     var body: some View {
         
+        let selectedUser = fetchUserDetails(withUser: selectedUsername)
+        
         List{
-            ForEach(Array(selectedUser.tickets! as Set), id: \.self) { ticket in
+            ForEach(Array(selectedUser!.tickets! as Set), id: \.self) { ticket in
                 NavigationLink(
                     destination: DetailView(selectedTicket: ticket as! Ticket)){
                     VStack(alignment: .leading) {
@@ -52,7 +54,7 @@ struct TicketView: View {
                 }
             }
             .onDelete(perform: { selectedIndex in
-                let selectedTicket = Array(selectedUser.tickets! as Set)[selectedIndex.first!]
+                let selectedTicket = Array(selectedUser!.tickets! as Set)[selectedIndex.first!]
                     self.moc.delete(selectedTicket as! Ticket)
 
                     do {
@@ -68,15 +70,15 @@ struct TicketView: View {
     }
 }
 
-//struct TicketView_Previews: PreviewProvider {
-//    static var previews: some View {
-//
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//        let newUser = User.init(context: context)
-//        newUser.username = "Tester"
-//        newUser.password = "Test1234"
-//
-//        return TicketView(selectedUser: newUser).environment(\.managedObjectContext, context)
-//
-//    }
-//}
+struct TicketView_Previews: PreviewProvider {
+    @State static var username : String = "Tester"
+
+    static var previews: some View {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+        let fetchedUser = fetchUserDetails(withUser: username)!
+        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+
+        return TicketView(selectedUsername: $username).environment(\.managedObjectContext, context)
+    }
+}

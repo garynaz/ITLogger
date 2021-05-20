@@ -8,15 +8,6 @@
 import SwiftUI
 
 struct QuoteView: View {
-    
-//    init(selectedUser:User) {
-//        UISegmentedControl.appearance().selectedSegmentTintColor = .orange
-//        UISegmentedControl.appearance().setTitleTextAttributes(
-//            [.foregroundColor : UIColor.white], for: .selected)
-//        self.selectedUser = selectedUser
-//    }
-    
-//    @ObservedObject var selectedUser : User
 
     @State private var inquiryText : String = "Quote Request..."
     @State private var selectedPriority : String = "Low"
@@ -29,7 +20,6 @@ struct QuoteView: View {
     var body: some View {
         let selectedUser = fetchUserDetails(withUser: selectedUsername)!
         
-//        ScrollView{
             VStack{
                 VStack(alignment: .leading) {
                     HStack {
@@ -81,18 +71,18 @@ struct QuoteView: View {
                 .background(Color.gray)
                 .opacity(0.8)
             }
-//        }
     }
 }
 
-//struct QuoteView_Previews: PreviewProvider {
-//    static var previews: some View {
-////        QuoteView()
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//   //Test data
-//        let newUser = User.init(context: context)
-//        newUser.username = "Tester"
-//        newUser.password = "Test1234"
-//        return QuoteView(selectedUser: newUser).environment(\.managedObjectContext, context)
-//    }
-//}
+struct QuoteView_Previews: PreviewProvider {
+    @State static var username : String = "Tester"
+    
+    static var previews: some View {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+        let fetchedUser = fetchUserDetails(withUser: username)!
+        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+        
+        return QuoteView(selectedUsername: $username).environment(\.managedObjectContext, context)
+    }
+}

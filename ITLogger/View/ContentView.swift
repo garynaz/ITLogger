@@ -11,9 +11,8 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var goToContentView: moveToContentView
-    //    @ObservedObject var selectedUser : User
     @Binding var selectedUsername : String
-    @State var selectedImageArray : [UIImage]
+    @Binding var selectedImageArray : [UIImage]
     
     
     
@@ -37,7 +36,7 @@ struct ContentView: View {
                         .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))
                 }
                 
-                NavigationLink(destination: TicketView(selectedUser: selectedUser!)){
+                NavigationLink(destination: TicketView(selectedUsername: $selectedUsername)){
                     awButton(content: "Ticket Status", backColor: Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)))
                         .shadow(color: Color.primary.opacity(0.5), radius: 20, x: 0, y: 20)
                         .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))
@@ -73,18 +72,19 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//   //Test data
-//        let newUser = User.init(context: context)
-//        newUser.username = "Tester"
-//        newUser.password = "Test1234"
-//        return ContentView(selectedUser: newUser, selectedImageArray: [UIImage(systemName: "person.circle")!]).environment(\.managedObjectContext, context)
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    @State static var selectedImageArray : [UIImage] = [UIImage(systemName: "person.circle")!]
+    @State static var username : String = "Tester"
+    
+    static var previews: some View {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+        let fetchedUser = fetchUserDetails(withUser: username)!
+        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+        
+        return ContentView(selectedUsername: $username, selectedImageArray: $selectedImageArray).environment(\.managedObjectContext, context)
+    }
+}
 
 
 struct awButton: View {

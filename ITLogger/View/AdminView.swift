@@ -11,7 +11,7 @@ struct AdminView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var goToContentView: moveToContentView
     @Binding var selectedUsername : String
-    @State var selectedImageArray : [UIImage]
+    @Binding var selectedImageArray : [UIImage]
     
     @FetchRequest(fetchRequest: Ticket.fetchAllTicketDetails()) var allTickets:FetchedResults<Ticket>
     
@@ -105,9 +105,18 @@ struct AdminView: View {
     }
 }
 
-//struct AdminView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AdminView()
-//    }
-//}
+struct AdminView_Previews: PreviewProvider {
+    
+    @State static var selectedImageArray : [UIImage] = [UIImage(systemName: "person.circle")!]
+    @State static var username : String = "Tester"
+    
+    static var previews: some View {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+        let fetchedUser = fetchUserDetails(withUser: username)!
+        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+        
+        return AdminView(selectedUsername: $username, selectedImageArray: $selectedImageArray).environment(\.managedObjectContext, context)
+    }
+}
 
