@@ -25,6 +25,7 @@
 		DDB3687C25FE90480084FD73 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3687B25FE90480084FD73 /* LoginView.swift */; };
 		DDB3687F25FE90540084FD73 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3687E25FE90540084FD73 /* SignUpView.swift */; };
 		DDB3688225FEC3F20084FD73 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3688125FEC3F20084FD73 /* ImagePicker.swift */; };
+		DDB95E2D26588FE300EAF375 /* MiscFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB95E2C26588FE300EAF375 /* MiscFunctions.swift */; };
 		DDBD4FF125EC5A6900D74506 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD4FF025EC5A6900D74506 /* DetailView.swift */; };
 		DDC8641C2626170C008C11A9 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC8641B2626170C008C11A9 /* KeyboardHandler.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		DDB3687B25FE90480084FD73 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DDB3687E25FE90540084FD73 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		DDB3688125FEC3F20084FD73 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		DDB95E2C26588FE300EAF375 /* MiscFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscFunctions.swift; sourceTree = "<group>"; };
 		DDBD4FF025EC5A6900D74506 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		DDC8641B2626170C008C11A9 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +121,7 @@
 		DDB3687525FE8FEC0084FD73 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DDB95E2C26588FE300EAF375 /* MiscFunctions.swift */,
 				DDC8641B2626170C008C11A9 /* KeyboardHandler.swift */,
 				DDB3688125FEC3F20084FD73 /* ImagePicker.swift */,
 				DDB3687B25FE90480084FD73 /* LoginView.swift */,
@@ -216,6 +219,7 @@
 				DDA0B94925E5CA8C00D3DD6A /* QuoteView.swift in Sources */,
 				DDB3688225FEC3F20084FD73 /* ImagePicker.swift in Sources */,
 				DDA0B92F25E5CA0100D3DD6A /* ContentView.swift in Sources */,
+				DDB95E2D26588FE300EAF375 /* MiscFunctions.swift in Sources */,
 				DD67C73A26024F9D00B3EBBF /* Ticket+CoreDataProperties.swift in Sources */,
 				DD67C73B26024F9D00B3EBBF /* User+CoreDataClass.swift in Sources */,
 				DDC8641C2626170C008C11A9 /* KeyboardHandler.swift in Sources */,

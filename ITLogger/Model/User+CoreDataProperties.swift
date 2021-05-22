@@ -47,16 +47,3 @@ extension User {
 extension User : Identifiable {
     
 }
-
-extension User {
-    
-    static func fetchAllUserDetails() -> NSFetchRequest<User> {
-        let fetchRequest = NSFetchRequest<User>(entityName: "User")
-        fetchRequest.predicate = NSPredicate(format: "username != NULL")
-        let sortDescriptor = NSSortDescriptor(keyPath: \User.company, ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        return fetchRequest
-    }
-    
-}

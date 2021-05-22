@@ -27,35 +27,12 @@ extension Ticket {
 }
 
 extension Ticket : Identifiable {
-
-}
-
-extension Ticket {
-    static func getAllTicketItems() -> NSFetchRequest<Ticket> {
-        let request:NSFetchRequest<Ticket> = Ticket.fetchRequest()
-
-        let sortDescriptor = NSSortDescriptor(keyPath: \Ticket.date, ascending: true)
-        request.sortDescriptors = [sortDescriptor]
-
-        return request
-    }
-    
     static func fetchAllTicketDetails() -> NSFetchRequest<Ticket> {
         let fetchRequest = NSFetchRequest<Ticket>(entityName: "Ticket")
         fetchRequest.predicate = NSPredicate(format: "user != NULL")
         let sortDescriptor = NSSortDescriptor(keyPath: \Ticket.user, ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
+
         return fetchRequest
     }
-    
-    static func fetchUserTicketDetails(user: String) -> NSFetchRequest<Ticket> {
-        let fetchRequest = NSFetchRequest<Ticket>(entityName: "Ticket")
-        fetchRequest.predicate = NSPredicate(format: "user == \(user)")
-        let sortDescriptor = NSSortDescriptor(keyPath: \Ticket.user, ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        return fetchRequest
-    }
-    
 }

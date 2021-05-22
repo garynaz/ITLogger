@@ -103,10 +103,9 @@ struct SignUpView: View {
                     if photo != nil {
                         photo?
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
+                            .frame(width: 200, height: 200)
                             .clipShape(Circle())
-                            .frame(width: 300, height: 300)
-                        
                     } else {
                         Circle()
                             .fill(Color.secondary)

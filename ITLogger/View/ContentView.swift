@@ -114,18 +114,3 @@ struct awButton: View {
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 }
-
-//Produces an Array of Images from a Data object.
-func imagesFromCoreData(object: Data?) -> [UIImage]? {
-    var retVal = [UIImage]()
-    
-    guard let object = object else { return nil }
-    if let dataArray = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: object) {
-        for data in dataArray {
-            if let data = data as? Data, let image = UIImage(data: data) {
-                retVal.append(image)
-            }
-        }
-    }
-    return retVal
-}
