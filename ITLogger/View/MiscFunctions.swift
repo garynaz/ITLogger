@@ -22,10 +22,25 @@ func fetchUserDetails(withUser user: String) -> User? {
     let fetchRequest = NSFetchRequest<User>(entityName: "User")
     fetchRequest.fetchLimit = 1
     fetchRequest.predicate = NSPredicate(format: "username == %@", user)
-    
+
     do {
         let fetchUser = try context.fetch(fetchRequest)
         return fetchUser.first
+    } catch let fetchError {
+        print("Failed to fetch: \(fetchError)")
+    }
+    return nil
+}
+
+func fetchUsersTickets(withUser user: String) -> NSSet? {
+        
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let fetchRequest = NSFetchRequest<User>(entityName: "User")
+    fetchRequest.predicate = NSPredicate(format: "username == %@", user)
+    
+    do {
+        let fetchUser = try context.fetch(fetchRequest)
+        return fetchUser.first?.tickets
     } catch let fetchError {
         print("Failed to fetch: \(fetchError)")
     }

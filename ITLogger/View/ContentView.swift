@@ -13,9 +13,7 @@ struct ContentView: View {
     @EnvironmentObject var goToContentView: moveToContentView
     @Binding var selectedUsername : String
     @Binding var selectedImageArray : [UIImage]
-    
-    
-    
+        
     var body: some View {
         
         let selectedUser = fetchUserDetails(withUser: selectedUsername)

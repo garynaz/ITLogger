@@ -61,16 +61,7 @@ struct AdminView: View {
                 }
                 
             }
-            .onDelete(perform: { selectedIndex in
-                let selectedTicket = Array(selectedUser!.tickets! as Set)[selectedIndex.first!]
-                self.moc.delete(selectedTicket as! Ticket)
-                
-                do {
-                    try self.moc.save()
-                } catch {
-                    print(error)
-                }
-            }).animation(.default)
+            .onDelete(perform: deleteTicket)
         }
         .toolbar(content: {
             EditButton()
@@ -102,6 +93,14 @@ struct AdminView: View {
                 .font(.system(size: 20))
         })
         
+    }
+    
+    func deleteTicket(at offsets: IndexSet){
+        for offset in offsets {
+            let ticket = allTickets[offset]
+            moc.delete(ticket)
+        }
+        try? moc.save()
     }
 }
 
