@@ -56,7 +56,7 @@ struct LoginView: View {
                         }
                     })
                     
-                
+                //SignIn Button
                 NavigationLink(
                     destination: getDestination(from: selectedUser?.admin ?? false),
                     isActive: self.$goToContentView.goToViewFromLogin){
@@ -66,6 +66,7 @@ struct LoginView: View {
                             
                             if self.username == selectedUser?.username && self.password == selectedUser?.password {
                                 self.selectedImageArray = imagesFromCoreData(object: selectedUser!.photo!)!
+                                print(selectedImageArray)
                                 self.goToContentView.goToViewFromLogin = true
                             } else {
                                 self.shouldShowLoginAlert = true
@@ -78,6 +79,7 @@ struct LoginView: View {
                 }
                 .disabled(disableLoginButton)
                 
+                //SignUp Button
                 NavigationLink(destination: SignUpView(), isActive: self.$goToContentView.goToViewFromRegister, label: {
                     Text("Sign Up").onTapGesture {
                         self.goToContentView.goToViewFromRegister = true
@@ -98,6 +100,7 @@ struct LoginView: View {
     
     //Sets appropariate destination based on value of Admin property.
     func getDestination(from adminValue: Bool) -> AnyView {
+        
             if adminValue == false {
                 return AnyView(ContentView(selectedUsername: $username, selectedImageArray: self.$selectedImageArray))
             }

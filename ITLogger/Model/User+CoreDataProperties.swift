@@ -46,4 +46,11 @@ extension User {
 
 extension User : Identifiable {
 
+    static func fetchThisUsersDetails(username:String) -> NSFetchRequest<User> {
+        let fetchRequest = NSFetchRequest<User>(entityName: "User")
+        fetchRequest.predicate = NSPredicate(format: "username == %@", username)
+        fetchRequest.sortDescriptors = []
+
+        return fetchRequest
+    }
 }

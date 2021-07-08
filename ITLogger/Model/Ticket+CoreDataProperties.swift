@@ -35,4 +35,14 @@ extension Ticket : Identifiable {
 
         return fetchRequest
     }
+    
+    static func fetchThisUsersTicketDetails(user: User) -> NSFetchRequest<Ticket> {
+        let fetchRequest = NSFetchRequest<Ticket>(entityName: "Ticket")
+        fetchRequest.predicate = NSPredicate(format: "user == %@", user)
+        let sortDescriptor = NSSortDescriptor(keyPath: \Ticket.user, ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
+        return fetchRequest
+    }
+    
 }

@@ -16,6 +16,7 @@ struct ContentView: View {
         
     var body: some View {
         
+        //This is not executing properly. Returning Nil.
         let selectedUser = fetchUserDetails(withUser: selectedUsername)
         
         VStack{
@@ -34,7 +35,7 @@ struct ContentView: View {
                         .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))
                 }
                 
-                NavigationLink(destination: TicketView(selectedUsername: $selectedUsername)){
+                NavigationLink(destination: TicketView(selectedUsersTickets: FetchRequest(fetchRequest: Ticket.fetchThisUsersTicketDetails(user: selectedUser!)), selectedUsername: $selectedUsername)){
                     awButton(content: "Ticket Status", backColor: Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)))
                         .shadow(color: Color.primary.opacity(0.5), radius: 20, x: 0, y: 20)
                         .rotation3DEffect(Angle(degrees:10), axis: (x: 10.0, y: 0, z: 0))

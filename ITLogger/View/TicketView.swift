@@ -8,53 +8,52 @@
 import SwiftUI
 
 struct TicketView: View {
-            
+    @FetchRequest<Ticket> var selectedUsersTickets: FetchedResults<Ticket>
     @Environment(\.managedObjectContext) var moc
     @Binding var selectedUsername : String
     
     var body: some View {
-        
-        let selectedUser = fetchUsersTickets(withUser: selectedUsername)
-        
         List{
-            ForEach(Array(selectedUser! as Set), id: \.self) { ticket in
+            ForEach(selectedUsersTickets) { ticket in
                 NavigationLink(
-                    destination: DetailView(selectedTicket: ticket as! Ticket)){
-                    ticketRow(ticket: (ticket as? Ticket)!)
+                    destination: DetailView(selectedTicket: ticket)){
+                    ticketRow(ticket: ticket)
                 }
             }
-            .onDelete(perform: { selectedIndex in
-                let selectedTicket = Array(selectedUser! as Set)[selectedIndex.first!]
-                    self.moc.delete(selectedTicket as! Ticket)
-                    do {
-                        try self.moc.save()
-                    } catch {
-                        print(error)
-                    }
-            }).animation(.default)
+            .onDelete(perform: deleteTicket).animation(.default)
         }
         .toolbar(content: {
             EditButton()
         }).animation(.default)
     }
-}
-
-struct TicketView_Previews: PreviewProvider {
-    @State static var username : String = "Tester"
-
-    static var previews: some View {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
-        let fetchedUser = fetchUserDetails(withUser: username)!
-        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
-
-        return TicketView(selectedUsername: $username).environment(\.managedObjectContext, context)
+    
+    
+    func deleteTicket(at offsets: IndexSet){
+        for offset in offsets {
+            let ticket = selectedUsersTickets[offset]
+            moc.delete(ticket)
+        }
+        try? moc.save()
     }
 }
 
+//struct TicketView_Previews: PreviewProvider {
+//    @State static var username : String = "Tester"
+//
+//    static var previews: some View {
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+//        let fetchedUser = fetchUserDetails(withUser: username)!
+//        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+//
+//        return TicketView(selectedUsername: $username).environment(\.managedObjectContext, context)
+//    }
+//}
+
 struct ticketRow: View {
-    @ObservedObject var ticket : Ticket
     
+    var ticket : Ticket
+
     var body: some View {
         VStack(alignment: .leading) {
             Text(ticket.type!)
