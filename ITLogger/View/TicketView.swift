@@ -37,18 +37,18 @@ struct TicketView: View {
     }
 }
 
-//struct TicketView_Previews: PreviewProvider {
-//    @State static var username : String = "Tester"
-//
-//    static var previews: some View {
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
-//        let fetchedUser = fetchUserDetails(withUser: username)!
-//        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
-//
-//        return TicketView(selectedUsername: $username).environment(\.managedObjectContext, context)
-//    }
-//}
+struct TicketView_Previews: PreviewProvider {
+    @State static var username : String = "Tester"
+
+    static var previews: some View {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
+        let fetchedUser = fetchUserDetails(withUser: username)!
+        createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
+
+        return TicketView(selectedUsersTickets: FetchRequest(fetchRequest: Ticket.fetchThisUsersTicketDetails(user: fetchedUser)), selectedUsername: $username).environment(\.managedObjectContext, context)
+    }
+}
 
 struct ticketRow: View {
     
