@@ -12,7 +12,7 @@ struct ContentView: View {
     
     @EnvironmentObject var goToContentView: moveToContentView
     @Binding var selectedUsername : String
-    @Binding var selectedImageArray : [UIImage]
+    @Binding var selectedImageArray : [Image]
         
     var body: some View {
         
@@ -60,7 +60,7 @@ struct ContentView: View {
         },trailing: HStack{
             Image(systemName: "bell")
                 .font(.system(size: 30))
-            Image(uiImage: selectedImageArray.first!)
+            selectedImageArray.first!
                 .resizable()
                 .scaledToFit()
                 .clipShape(Circle())
@@ -72,15 +72,15 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    @State static var selectedImageArray : [UIImage] = [UIImage(systemName: "person.circle")!]
+    @State static var selectedImageArray : [Image] = [Image(systemName: "person.circle")]
     @State static var username : String = "Tester"
-    
+
     static var previews: some View {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         createUserObject(company: "Carmel", name: "Gary", username: "Tester", password: "Test1234", photo: UIImage(systemName: "person.circle")!, admin: true)
         let fetchedUser = fetchUserDetails(withUser: username)!
         createTicketObject(user: fetchedUser, inquiry: "Help me with emails", priority: "High", status: "OPEN", type: "Support")
-        
+
         return ContentView(selectedUsername: $username, selectedImageArray: $selectedImageArray).environment(\.managedObjectContext, context)
     }
 }

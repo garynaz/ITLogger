@@ -17,7 +17,7 @@ struct LoginView: View {
     @State private var username : String = ""
     @State private var password : String = ""
     @State private var shouldShowLoginAlert: Bool = false
-    @State var selectedImageArray : [UIImage] = []
+    @State var selectedImageArray : [Image] = []
         
     var disableLoginButton : Bool {
         return self.username.isEmpty || self.password.isEmpty

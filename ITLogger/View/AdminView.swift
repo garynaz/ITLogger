@@ -11,7 +11,7 @@ struct AdminView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var goToContentView: moveToContentView
     @Binding var selectedUsername : String
-    @Binding var selectedImageArray : [UIImage]
+    @Binding var selectedImageArray : [Image]
     
     @FetchRequest(fetchRequest: Ticket.fetchAllTicketDetails()) var allTickets:FetchedResults<Ticket>
     
@@ -81,10 +81,12 @@ struct AdminView: View {
             HStack {
                 Text("Sign Out")
             }
-        },trailing: HStack{
+        }
+        ,trailing:
+            HStack{
             Image(systemName: "bell")
                 .font(.system(size: 30))
-            Image(uiImage: selectedImageArray.first!)
+                selectedImageArray.first!
                 .resizable()
                 .scaledToFit()
                 .clipShape(Circle())
@@ -106,7 +108,7 @@ struct AdminView: View {
 
 struct AdminView_Previews: PreviewProvider {
     
-    @State static var selectedImageArray : [UIImage] = [UIImage(systemName: "person.circle")!]
+    @State static var selectedImageArray : [Image] = [Image(systemName: "person.circle")]
     @State static var username : String = "Tester"
     
     static var previews: some View {

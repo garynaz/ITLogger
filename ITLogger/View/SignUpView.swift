@@ -25,7 +25,7 @@ struct SignUpView: View {
     @State private var isSignUpValid: Bool = false
     @State private var selectedUser:User?
     
-    @State var selectedImageArray : [UIImage] = []
+    @State var selectedImageArray : [Image] = []
     
     @FetchRequest(entity: User.entity(), sortDescriptors: []) var languages: FetchedResults<User>
     

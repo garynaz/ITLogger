@@ -69,7 +69,7 @@ func createUserObject(company: String, name: String, username: String, password:
     func coreDataObjectFromImages(image: UIImage) -> Data? {
         let dataArray = NSMutableArray()
         
-        if let data = image.pngData() {
+        if let data = image.jpegData(compressionQuality: 1.0) {
             dataArray.add(data)
         }
         return try? NSKeyedArchiver.archivedData(withRootObject: dataArray, requiringSecureCoding: true)
@@ -118,15 +118,14 @@ func createTicketObject(user: User, inquiry: String, priority: String, status: S
     }
 }
 
-//Produces an Array of Images from a Data object.
-func imagesFromCoreData(object: Data?) -> [UIImage]? {
-    var retVal = [UIImage]()
+func imagesFromCoreData(object: Data?) -> [Image]? {
+    var retVal = [Image]()
     
     guard let object = object else { return nil }
     if let dataArray = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: object) {
         for data in dataArray {
             if let data = data as? Data, let image = UIImage(data: data) {
-                retVal.append(image)
+                retVal.append(Image(uiImage: image))
             }
         }
     }
