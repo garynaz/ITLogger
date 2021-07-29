@@ -16,7 +16,6 @@ struct ContentView: View {
         
     var body: some View {
         
-        //This is not executing properly. Returning Nil.
         let selectedUser = fetchUserDetails(withUser: selectedUsername)
         
         VStack{
